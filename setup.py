@@ -1,5 +1,6 @@
 from setuptools import setup
-from setuptools.extension import Extension
+from Cython.Build import cythonize
+# from setuptools.extension import Extension
 
 setup(
     name = "tps",
@@ -21,7 +22,7 @@ setup(
         "Topic :: Scientific/Engineering",
     ],
     test_suite = 'tps.test.test_suite',
-    ext_modules=[
-        Extension("tps._tps", ["tps/_tps.cpp", "tps/thinplatespline.cpp"], libraries=["stdc++"]),
-    ],
+    ext_modules=cythonize("tps/_tps.pyx"),
+        # Extension("tps._tps", ["tps/_tps.cpp", "tps/thinplatespline.cpp"], libraries=["stdc++"]),
+    zip_safe=False
 )

@@ -18,6 +18,9 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
+# distutils: sources = tps/thinplatespline.cpp
+# distutils: language = c++
+
 cdef extern from "thinplatespline.h":
     cdef cppclass VizGeorefSpline2D:
         VizGeorefSpline2D(int)
