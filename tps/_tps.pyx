@@ -21,6 +21,16 @@
 # distutils: sources = tps/thinplatespline.cpp
 # distutils: language = c++
 
+import numpy as np
+cimport numpy as np
+DTYPE_D = np.double
+DTYPE_L = np.long
+ctypedef np.double_t DTYPE_D_t
+ctypedef np.long_t DTYPE_L_t
+
+cimport cython
+
+
 cdef extern from "thinplatespline.h":
     cdef cppclass VizGeorefSpline2D:
         VizGeorefSpline2D(int)
@@ -97,6 +107,17 @@ cdef class TPS:
         cdef double dst[2]
         self._sp.get_point(src_x, src_y, dst)
         return dst[0], dst[1]
+
+    @cython.boundscheck(False) # turn off bounds-checking for entire function
+    @cython.wraparound(False)  # turn off negative index wrapping for entire function
+    def transforms(self, np.ndarray[DTYPE_L_t, ndim=2] src):
+        cdef int length = len(src)
+        cdef np.ndarray[DTYPE_D_t, ndim=2] dst = np.zeros([length, 2], dtype=DTYPE_D)
+        cdef int idx = 0
+        for row in src:
+            dst[idx] = self.transform(row[0], row[1])
+            idx += 1
+        return dst
 
 def from_control_points(points, backwards=False):
     t = TPS()

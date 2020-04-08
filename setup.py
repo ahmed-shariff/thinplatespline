@@ -1,5 +1,6 @@
 from setuptools import setup
 from Cython.Build import cythonize
+import numpy
 # from setuptools.extension import Extension
 
 setup(
@@ -24,5 +25,6 @@ setup(
     test_suite = 'tps.test.test_suite',
     ext_modules=cythonize("tps/_tps.pyx"),
         # Extension("tps._tps", ["tps/_tps.cpp", "tps/thinplatespline.cpp"], libraries=["stdc++"]),
-    zip_safe=False
+    zip_safe=False,
+    include_dirs=[numpy.get_include()]
 )
